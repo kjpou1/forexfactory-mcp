@@ -52,7 +52,7 @@ forexfactory-mcp/
 
 ```bash
 # Clone repo
-git clone https://github.com/yourusername/forexfactory-mcp.git
+git clone https://github.com/kjpou1/forexfactory-mcp.git
 cd forexfactory-mcp
 
 # Install dependencies
@@ -72,7 +72,7 @@ cp .env.example .env
 uv run forexfactory_mcp.server
 ```
 
-The server will expose MCP **resources** and **tools** that clients can call.
+The server will expose MCP **resources**, **prompts** and **tools** that clients can call.
 
 ---
 
