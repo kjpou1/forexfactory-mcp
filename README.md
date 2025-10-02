@@ -124,13 +124,34 @@ Examples:
 
 ---
 
-## 🛠️ Tools & Resources
+## 📦 Resources
 
-| Name                  | Type     | Description                        | Parameters                                                              |
-| --------------------- | -------- | ---------------------------------- | ----------------------------------------------------------------------- |
-| `events_today`        | Resource | Fetch today’s calendar events      | None                                                                    |
-| `events_week`         | Resource | Fetch this week’s events           | None                                                                    |
-| `get_calendar_events` | Tool     | Retrieve events for a given period | `time_period` (str), `start_date` (YYYY-MM-DD), `end_date` (YYYY-MM-DD) |
+Resources expose **economic calendar events** for fixed time windows or a custom date range.
+They are useful for **streaming or subscription-based access** to calendar data.
+
+| Name                | Path                                 | Description                                  |
+| ------------------- | ------------------------------------ | -------------------------------------------- |
+| `events_today`      | `ffcal://events/today`               | Economic calendar events scheduled for today |
+| `events_yesterday`  | `ffcal://events/yesterday`           | Events from yesterday                        |
+| `events_tomorrow`   | `ffcal://events/tomorrow`            | Events scheduled for tomorrow                |
+| `events_week`       | `ffcal://events/week`                | All events this week                         |
+| `events_this_week`  | `ffcal://events/this_week`           | Explicit alias for this week’s events        |
+| `events_next_week`  | `ffcal://events/next_week`           | All events scheduled for next week           |
+| `events_last_week`  | `ffcal://events/last_week`           | Events from last week                        |
+| `events_this_month` | `ffcal://events/this_month`          | All events scheduled for this month          |
+| `events_next_month` | `ffcal://events/next_month`          | All events scheduled for next month          |
+| `events_last_month` | `ffcal://events/last_month`          | Events from last month                       |
+| `events_range`      | `ffcal://events/range/{start}/{end}` | Custom date range (YYYY-MM-DD to YYYY-MM-DD) |
+
+---
+
+## 🛠️ Tools
+
+Tools are **direct, parameterized calls** that allow you to query economic events dynamically.
+
+| Name                  | Type | Description                        | Parameters                                                              |
+| --------------------- | ---- | ---------------------------------- | ----------------------------------------------------------------------- |
+| `get_calendar_events` | Tool | Retrieve events for a given period | `time_period` (str), `start_date` (YYYY-MM-DD), `end_date` (YYYY-MM-DD) |
 
 ### Supported `time_period` values
 
@@ -141,7 +162,7 @@ this_month, next_month, last_month,
 custom
 ```
 
-When `custom` is used, you must pass `start_date` and `end_date`.
+When `custom` is used, you must also pass `start_date` and `end_date`.
 
 ---
 
