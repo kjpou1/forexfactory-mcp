@@ -1,0 +1,19 @@
+[project]
+name = "forexfactory-mcp"
+version = "0.1.0"
+description = "MCP server exposing ForexFactory calendar as resources, prompts, and tools"
+requires-python = ">=3.12"
+dependencies = [
+    "fastmcp>=2.12.3",
+    "httpx>=0.28.1",
+    "pandas>=2.3.2",
+    "playwright>=1.55.0",
+    "tzlocal>=5.3.1",
+]
+
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
