@@ -158,15 +158,13 @@ print(response)
 
 No special config is required, but you may set environment variables.
 
-| Variable             | Default                                 | Description                                                                 |
-| -------------------- | --------------------------------------- | --------------------------------------------------------------------------- |
-| `NAMESPACE`          | `ffcal`                                 | MCP namespace for tools/resources                                           |
-| `FF_BASE_URL`        | `https://www.forexfactory.com/calendar` | Base URL for scraping ForexFactory calendar data                            |
-| `CACHE_TTL`          | `300`                                   | Cache time (seconds) for repeated queries                                   |
-| `SCRAPER_TIMEOUT_MS` | `5000`                                  | Timeout for Playwright (milliseconds)                                       |
-| `LOCAL_TIMEZONE`     | system local (fallback UTC)             | Local timezone override (e.g., `Europe/Luxembourg`)                         |
-| `INCLUDE_FIELDS`     | *(empty → all fields)*                  | Comma-separated list of fields to include (supports wildcards `*`)          |
-| `EXCLUDE_FIELDS`     | *(empty → none)*                        | Comma-separated list of fields to exclude (ignored if `INCLUDE_FIELDS` set) |
+| Variable             | Default                     | Description                                                                 |
+| -------------------- | --------------------------- | --------------------------------------------------------------------------- |
+| `NAMESPACE`          | `ffcal`                     | MCP namespace for tools/resources                                           |
+| `SCRAPER_TIMEOUT_MS` | `5000`                      | Timeout for Playwright (milliseconds)                                       |
+| `LOCAL_TIMEZONE`     | system local (fallback UTC) | Local timezone override (e.g., `Europe/Luxembourg`)                         |
+| `INCLUDE_FIELDS`     | *(empty → all fields)*      | Comma-separated list of fields to include (supports wildcards `*`)          |
+| `EXCLUDE_FIELDS`     | *(empty → none)*            | Comma-separated list of fields to exclude (ignored if `INCLUDE_FIELDS` set) |
 
 ---
 
