@@ -1,5 +1,16 @@
 # 📅 ForexFactory MCP Server
 
+![Python](https://img.shields.io/badge/python-3.12+-blue.svg)
+![License](https://img.shields.io/badge/license-MIT-green.svg)
+![MCP](https://img.shields.io/badge/MCP-Server-orange)
+![uv](https://img.shields.io/badge/packaging-uv-purple)
+
+![Contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg)
+![Status](https://img.shields.io/badge/status-active-success.svg)
+![PRs Welcome](https://img.shields.io/badge/PRs-welcome-blue.svg)
+![Made with Love](https://img.shields.io/badge/made%20with-%E2%9D%A4-red.svg)
+
+
 An MCP (Model Context Protocol) server that exposes **ForexFactory economic calendar data** as resources and tools.
 
 Designed for use in **agentic workflows**, LLMs, and trading assistants.
