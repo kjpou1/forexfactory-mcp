@@ -145,6 +145,24 @@ When `custom` is used, you must pass `start_date` and `end_date`.
 
 ---
 
+### 📝 Prompts
+
+In addition to **resources** and **tools**, this server also provides **prompt templates**.
+These are structured instructions designed to help LLMs generate trading notes, scenarios, and outlooks in a consistent format.
+
+Available prompts include:
+
+* **Cross-Asset Radar** – highlights correlations and divergences across FX, equities, bonds, and commodities.
+* **Daily Prep / Daily Playbook** – morning preparation notes with key catalysts, directional biases, and trading scenarios.
+* **Positioning & Flow Note** – summarizes market positioning, sentiment, and flow dynamics.
+* **Trade Map Scenarios** – outlines scenario-based trading maps for major instruments.
+* **Volatility Grid** – surfaces key vol events and expected ranges.
+* **Weekly Outlook / Next Week Outlook** – forward-looking views on economic events and market positioning.
+
+These prompts can be used directly by MCP-compatible clients or integrated into agentic workflows for structured **research automation**.
+
+---
+
 ## 💻 Client Examples
 
 ### Example: Using MCP CLI
