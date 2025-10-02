@@ -156,44 +156,127 @@ print(response)
 
 ## ⚙️ Configuration
 
-No special config is required, but you may set environment variables:
+No special config is required, but you may set environment variables.
 
-| Variable      | Default                                 | Description                               |
-| ------------- | --------------------------------------- | ----------------------------------------- |
-| `NAMESPACE`   | `ffcal`                                 | MCP namespace for tools/resources         |
-| `FF_BASE_URL` | `https://www.forexfactory.com/calendar` | Base URL for scraping                     |
-| `CACHE_TTL`   | `300`                                   | Cache time (seconds) for repeated queries |
+| Variable             | Default                                 | Description                                                                 |
+| -------------------- | --------------------------------------- | --------------------------------------------------------------------------- |
+| `NAMESPACE`          | `ffcal`                                 | MCP namespace for tools/resources                                           |
+| `FF_BASE_URL`        | `https://www.forexfactory.com/calendar` | Base URL for scraping ForexFactory calendar data                            |
+| `CACHE_TTL`          | `300`                                   | Cache time (seconds) for repeated queries                                   |
+| `SCRAPER_TIMEOUT_MS` | `5000`                                  | Timeout for Playwright (milliseconds)                                       |
+| `LOCAL_TIMEZONE`     | system local (fallback UTC)             | Local timezone override (e.g., `Europe/Luxembourg`)                         |
+| `INCLUDE_FIELDS`     | *(empty → all fields)*                  | Comma-separated list of fields to include (supports wildcards `*`)          |
+| `EXCLUDE_FIELDS`     | *(empty → none)*                        | Comma-separated list of fields to exclude (ignored if `INCLUDE_FIELDS` set) |
+
+---
+
+### Include/Exclude Fields
+
+You can control which event fields are returned by the MCP server using
+`INCLUDE_FIELDS` and `EXCLUDE_FIELDS`.
+
+#### Processing Rules
+
+1. If **both are empty** → the server returns a **default lean set**:
+
+```
+
+id, title, currency, impact, datetime, forecast, previous, actual
+
+````
+
+2. If **`INCLUDE_FIELDS=*`** → all available fields are included.
+
+3. If **`INCLUDE_FIELDS` is set** → only the specified fields are included.  
+- Example:
+  ```env
+  INCLUDE_FIELDS=id,name,currency,date,forecast,previous,actual
+  ```
+
+4. If **both `INCLUDE_FIELDS` and `EXCLUDE_FIELDS` are set** →  
+- First, apply `INCLUDE_FIELDS`.  
+- Then, remove any fields listed in `EXCLUDE_FIELDS`.  
+
+#### Example Configurations
+
+```env
+# Default lean set (no INCLUDE/EXCLUDE set)
+INCLUDE_FIELDS=
+EXCLUDE_FIELDS=
+
+# All fields
+INCLUDE_FIELDS=*
+EXCLUDE_FIELDS=
+
+# Minimal fields
+INCLUDE_FIELDS=id,name,currency,date,forecast,previous,actual
+
+# Include impact fields, but exclude noisy metadata
+INCLUDE_FIELDS=impact*,date,currency
+EXCLUDE_FIELDS=dateline,hasLinkedThreads
+````
+
+---
+
+### Supported Fields
+
+| Category         | Fields                                                                                                                                                               |
+| ---------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Identity**     | `id`, `ebaseId`, `title`, `name`, `prefixedName`, `trimmedPrefixedName`                                                                                              |
+| **Titles**       | `soloTitle`, `soloTitleFull`, `soloTitleShort`                                                                                                                       |
+| **Metadata**     | `notice`, `dateline`, `country`, `currency`                                                                                                                          |
+| **Links**        | `url`, `soloUrl`, `editUrl`, `hasLinkedThreads`, `siteId`                                                                                                            |
+| **Status Flags** | `hasNotice`, `hasDataValues`, `hasGraph`, `checkedIn`, `isMasterList`, `firstInDay`, `greyed`, `upNext`                                                              |
+| **Impact**       | `impact`, `impactName`, `impactClass`, `impactTitle`                                                                                                                 |
+| **Timing**       | `datetime`, `timeLabel`, `timeMasked`, `date`                                                                                                                        |
+| **Values**       | `actual`, `previous`, `revision`, `forecast`, `leaked`, `actualBetterWorse`, `revisionBetterWorse`                                                                   |
+| **Display**      | `showGridLine`, `hideHistory`, `hideSoloPage`, `showDetails`, `showGraph`, `enableDetailComponent`, `enableExpandComponent`, `enableActualComponent`, `showExpanded` |
+
+```
+
+
+---
 
 ### Example `.env`
 
-Copy `.env.example` to `.env` and adjust values as needed:
-
-```bash
-cp .env.example .env
-```
-
-Example content:
-
 ```env
-# Namespace for MCP resources/tools
+# =====================================================
+# 🌐 MCP Namespace
+# =====================================================
+# Namespace prefix for all tools and resources.
+# Default: ffcal
 NAMESPACE=ffcal
 
-# Base URL for ForexFactory scraping
-FF_BASE_URL=https://www.forexfactory.com/calendar
 
-# Cache time in seconds (default: 300)
-CACHE_TTL=300
-
+# =====================================================
+# ⚙️ Scraper Configuration
+# =====================================================
 # Timeout for Playwright in milliseconds
-SCRAPER_TIMEOUT_MS=5000
+# Default: 5000 (5s)
+SCRAPER_TIMEOUT_MS=2000
 
 # Local timezone override (uses system local if not set)
+# Example: Europe/Luxembourg
 #LOCAL_TIMEZONE=Europe/Luxembourg
 
-# Control which fields to include/exclude in normalized event data
-# INCLUDE_FIELDS supports wildcards (*)
+
+# =====================================================
+# 📊 Event Fields
+# =====================================================
+# Control which fields to include/exclude in normalized event data.
+# - If both are empty, all fields are included.
+# - If both are set, INCLUDE_FIELDS takes precedence.
+# - INCLUDE_FIELDS supports wildcard (*) to include all fields.
+#   Example: INCLUDE_FIELDS=*
+#     → includes all fields
+
 INCLUDE_FIELDS=
 EXCLUDE_FIELDS=
+
+# Example usage:
+# INCLUDE_FIELDS=id,name,country,currency,date,actual,forecast,previous
+# EXCLUDE_FIELDS=notice,dateline,hasLinkedThreads,checkedIn,firstInDay
+
 ```
 
 ---
