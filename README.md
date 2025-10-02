@@ -118,7 +118,7 @@ All tools and resources are exposed with this prefix.
 
 Examples:
 
-* `ffcal:get_calendar_events`
+* `ffcal_get_calendar_events`
 * `ffcal:events_week`
 * `ffcal:events_today`
 
@@ -149,9 +149,9 @@ They are useful for **streaming or subscription-based access** to calendar data.
 
 Tools are **direct, parameterized calls** that allow you to query economic events dynamically.
 
-| Name                  | Type | Description                        | Parameters                                                              |
-| --------------------- | ---- | ---------------------------------- | ----------------------------------------------------------------------- |
-| `get_calendar_events` | Tool | Retrieve events for a given period | `time_period` (str), `start_date` (YYYY-MM-DD), `end_date` (YYYY-MM-DD) |
+| Name                        | Type | Description                        | Parameters                                                              |
+| --------------------------- | ---- | ---------------------------------- | ----------------------------------------------------------------------- |
+| `ffcal_get_calendar_events` | Tool | Retrieve events for a given period | `time_period` (str), `start_date` (YYYY-MM-DD), `end_date` (YYYY-MM-DD) |
 
 ### Supported `time_period` values
 
