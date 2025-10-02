@@ -15,6 +15,18 @@
 
 ---
 
+### 📌 Development Status
+
+This project is **actively developed**.
+The **core functionality is stable** (retrieving ForexFactory economic calendar events via MCP tools and resources), but we are still:
+
+* Expanding features (prompts, deployment options)
+* Improving documentation and examples
+
+We welcome feedback and contributions while we continue building out the ecosystem.
+
+---
+
 ### 📂 Project Structure
 
 ```
@@ -262,7 +274,7 @@ SCRAPER_TIMEOUT_MS=2000
 # 📊 Event Fields
 # =====================================================
 # Control which fields to include/exclude in normalized event data.
-# - If both are empty, all fields are included.
+# - If both are empty, only the default lean set of fields is included.
 # - If both are set, INCLUDE_FIELDS takes precedence.
 # - INCLUDE_FIELDS supports wildcard (*) to include all fields.
 #   Example: INCLUDE_FIELDS=*
