@@ -166,21 +166,24 @@ When `custom` is used, you must also pass `start_date` and `end_date`.
 
 ---
 
-### 📝 Prompts
+## 📝 Prompts
 
-In addition to **resources** and **tools**, this server also provides **prompt templates**.
-These are structured instructions designed to help LLMs generate trading notes, scenarios, and outlooks in a consistent format.
+Unlike **resources** (which return structured event data) and **tools** (which query events dynamically),
+**prompts generate structured text outputs** — trader notes, playbooks, and scenario analyses — that can be directly integrated into workflows or reports.
 
-Available prompts include:
+All prompt names are prefixed with the configured **namespace** (default: `ffcal_`).
+If you override `NAMESPACE` in your `.env`, replace the prefix accordingly.
 
-* **Cross-Asset Radar** – highlights correlations and divergences across FX, equities, bonds, and commodities.
-* **Daily Prep / Daily Playbook** – morning preparation notes with key catalysts, directional biases, and trading scenarios.
-* **Positioning & Flow Note** – summarizes market positioning, sentiment, and flow dynamics.
-* **Trade Map Scenarios** – outlines scenario-based trading maps for major instruments.
-* **Volatility Grid** – surfaces key vol events and expected ranges.
-* **Weekly Outlook / Next Week Outlook** – forward-looking views on economic events and market positioning.
-
-These prompts can be used directly by MCP-compatible clients or integrated into agentic workflows for structured **research automation**.
+| Name                             | Description                                                    | Why Use                                                                        |
+| -------------------------------- | -------------------------------------------------------------- | ------------------------------------------------------------------------------ |
+| `ffcal_daily_prep`               | Summarize today’s calendar into a **trader prep note**.        | Quick morning scan to know which events matter today.                          |
+| `ffcal_daily_playbook`           | Generate an **FX daily trading playbook** for today.           | Structured trade plan aligned with key macro drivers.                          |
+| `ffcal_weekly_outlook`           | Summarize **upcoming week’s high-impact events**.              | Helps prepare positioning for the week ahead.                                  |
+| `ffcal_weekly_outlook_next_week` | Draft a **Sunday note** for next week’s events.                | Pre-market research note for weekend review.                                   |
+| `ffcal_cross_asset_radar`        | Cross-asset spillover **radar** relevant to FX markets.        | Highlights risks from equities, bonds, and commodities that may spill into FX. |
+| `ffcal_positioning_flow_note`    | Note on **positioning, ETF flows, and options expiries**.      | Capture sentiment and positioning context beyond the economic calendar.        |
+| `ffcal_volatility_grid`          | **Weekly event-risk heatmap** presented as a grid.             | Visualize which days/times carry the most volatility risk.                     |
+| `ffcal_trade_map_scenarios`      | Scenario map for a **chosen event** with trading implications. | Anticipate market reactions and map trade scenarios ahead of the release.      |
 
 ---
 
@@ -365,4 +368,3 @@ pytest -v
 ## 📜 License
 
 MIT License – see [LICENSE](./LICENSE) for details.
-
