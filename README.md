@@ -1,17 +1,18 @@
 # 📅 ForexFactory MCP Server
 
-> An MCP (Model Context Protocol) server that exposes **ForexFactory economic calendar data** as resources and tools.  
-> Designed for use in **agentic workflows**, LLMs, and trading assistants.
+An MCP (Model Context Protocol) server that exposes **ForexFactory economic calendar data** as resources and tools.
+
+Designed for use in **agentic workflows**, LLMs, and trading assistants.
 
 ---
 
 ## 🚀 Features
 
-- ✅ Retrieve **economic calendar events** by time period (`today`, `this_week`, `custom`, etc.)
-- ✅ Access via **MCP resources** (for subscription-style access)
-- ✅ Access via **MCP tools** (direct calls from clients/agents)
-- ✅ JSON-first responses for easy integration
-- ⚡ Integrates with LangChain, n8n, or any MCP-compatible client
+* ✅ Retrieve **economic calendar events** by time period (`today`, `this_week`, `custom`, etc.)
+* ✅ Access via **MCP resources** (for subscription-style access)
+* ✅ Access via **MCP tools** (direct calls from clients/agents)
+* ✅ JSON-first responses for easy integration
+* ⚡ Integrates with LangChain, n8n, or any MCP-compatible client
 
 ---
 
@@ -50,15 +51,15 @@ forexfactory-mcp/
 
 *(See repo for full details — this is a high-level layout for contributors.)*
 
-
 ---
 
 ## 🔧 Installation
 
 ### Requirements
-- Python 3.12+  (see `.python-version` for exact version)
-- [uv](https://github.com/astral-sh/uv) or pip
-- A modern terminal or MCP-compatible client
+
+* Python 3.12+  (see `.python-version` for exact version)
+* [uv](https://github.com/astral-sh/uv) or pip
+* A modern terminal or MCP-compatible client
 
 ### Setup
 
@@ -72,7 +73,7 @@ uv sync   # or: pip install -e .
 
 # Copy example environment and adjust if needed
 cp .env.example .env
-````
+```
 
 ---
 
@@ -84,7 +85,7 @@ cp .env.example .env
 uv run forexfactory_mcp.server
 ```
 
-The server will expose MCP **resources**, **prompts** and **tools** that clients can call.
+The server will expose MCP **resources**, **prompts**, and **tools** that clients can call.
 
 ---
 
@@ -170,13 +171,13 @@ print(response)
 
 No special config is required, but you may set environment variables.
 
-| Variable             | Default                     | Description                                                                 |
-| -------------------- | --------------------------- | --------------------------------------------------------------------------- |
-| `NAMESPACE`          | `ffcal`                     | MCP namespace for tools/resources                                           |
-| `SCRAPER_TIMEOUT_MS` | `5000`                      | Timeout for Playwright (milliseconds)                                       |
-| `LOCAL_TIMEZONE`     | system local (fallback UTC) | Local timezone override (e.g., `Europe/Luxembourg`)                         |
-| `INCLUDE_FIELDS`     | *(empty → all fields)*      | Comma-separated list of fields to include (supports wildcards `*`)          |
-| `EXCLUDE_FIELDS`     | *(empty → none)*            | Comma-separated list of fields to exclude (ignored if `INCLUDE_FIELDS` set) |
+| Variable             | Default                     | Description                                                              |
+| -------------------- | --------------------------- | ------------------------------------------------------------------------ |
+| `NAMESPACE`          | `ffcal`                     | MCP namespace for tools/resources                                        |
+| `SCRAPER_TIMEOUT_MS` | `5000`                      | Timeout for Playwright (milliseconds)                                    |
+| `LOCAL_TIMEZONE`     | system local (fallback UTC) | Local timezone override (e.g., `Europe/Luxembourg`)                      |
+| `INCLUDE_FIELDS`     | *(empty → default fields)*  | Comma-separated list of fields to include, or `*` for all fields         |
+| `EXCLUDE_FIELDS`     | *(empty → none)*            | Comma-separated list of fields to exclude (applied after INCLUDE_FIELDS) |
 
 ---
 
@@ -189,23 +190,23 @@ You can control which event fields are returned by the MCP server using
 
 1. If **both are empty** → the server returns a **default lean set**:
 
-```
-
-id, title, currency, impact, datetime, forecast, previous, actual
-
-````
+   ```
+   id, title, currency, impact, datetime, forecast, previous, actual
+   ```
 
 2. If **`INCLUDE_FIELDS=*`** → all available fields are included.
 
-3. If **`INCLUDE_FIELDS` is set** → only the specified fields are included.  
-- Example:
-  ```env
-  INCLUDE_FIELDS=id,name,currency,date,forecast,previous,actual
-  ```
+3. If **`INCLUDE_FIELDS` is set** → only the specified fields are included.
+   Example:
 
-4. If **both `INCLUDE_FIELDS` and `EXCLUDE_FIELDS` are set** →  
-- First, apply `INCLUDE_FIELDS`.  
-- Then, remove any fields listed in `EXCLUDE_FIELDS`.  
+   ```env
+   INCLUDE_FIELDS=id,name,currency,date,forecast,previous,actual
+   ```
+
+4. If **both `INCLUDE_FIELDS` and `EXCLUDE_FIELDS` are set** →
+
+   * First, apply `INCLUDE_FIELDS`.
+   * Then, remove any fields listed in `EXCLUDE_FIELDS`.
 
 #### Example Configurations
 
@@ -222,9 +223,9 @@ EXCLUDE_FIELDS=
 INCLUDE_FIELDS=id,name,currency,date,forecast,previous,actual
 
 # Include impact fields, but exclude noisy metadata
-INCLUDE_FIELDS=impact*,date,currency
+INCLUDE_FIELDS=impactName,impactClass,date,currency
 EXCLUDE_FIELDS=dateline,hasLinkedThreads
-````
+```
 
 ---
 
@@ -242,9 +243,6 @@ EXCLUDE_FIELDS=dateline,hasLinkedThreads
 | **Values**       | `actual`, `previous`, `revision`, `forecast`, `leaked`, `actualBetterWorse`, `revisionBetterWorse`                                                                   |
 | **Display**      | `showGridLine`, `hideHistory`, `hideSoloPage`, `showDetails`, `showGraph`, `enableDetailComponent`, `enableExpandComponent`, `enableActualComponent`, `showExpanded` |
 
-```
-
-
 ---
 
 ### Example `.env`
@@ -257,7 +255,6 @@ EXCLUDE_FIELDS=dateline,hasLinkedThreads
 # Default: ffcal
 NAMESPACE=ffcal
 
-
 # =====================================================
 # ⚙️ Scraper Configuration
 # =====================================================
@@ -269,16 +266,13 @@ SCRAPER_TIMEOUT_MS=2000
 # Example: Europe/Luxembourg
 #LOCAL_TIMEZONE=Europe/Luxembourg
 
-
 # =====================================================
 # 📊 Event Fields
 # =====================================================
 # Control which fields to include/exclude in normalized event data.
 # - If both are empty, only the default lean set of fields is included.
-# - If both are set, INCLUDE_FIELDS takes precedence.
-# - INCLUDE_FIELDS supports wildcard (*) to include all fields.
-#   Example: INCLUDE_FIELDS=*
-#     → includes all fields
+# - If INCLUDE_FIELDS=* → all fields are included.
+# - If both are set, INCLUDE_FIELDS is applied first, then EXCLUDE_FIELDS removes fields.
 
 INCLUDE_FIELDS=
 EXCLUDE_FIELDS=
@@ -286,7 +280,6 @@ EXCLUDE_FIELDS=
 # Example usage:
 # INCLUDE_FIELDS=id,name,country,currency,date,actual,forecast,previous
 # EXCLUDE_FIELDS=notice,dateline,hasLinkedThreads,checkedIn,firstInDay
-
 ```
 
 ---
