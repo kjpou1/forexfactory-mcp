@@ -85,18 +85,93 @@ uv sync   # or: pip install -e .
 # Copy example environment and adjust if needed
 cp .env.example .env
 ```
-
 ---
 
 ## ▶️ Usage
 
-### Start the MCP server
+### ⚡ Quickstart
+
+Start the server with default settings (`stdio` transport):
 
 ```bash
-uv run forexfactory_mcp.server
+uv run ffcal-server
 ```
 
-The server will expose MCP **resources**, **prompts**, and **tools** that clients can call.
+Or directly with Python:
+
+```bash
+python -m forexfactory_mcp.server
+```
+
+Run with HTTP transport on port 8080:
+
+```bash
+uv run ffcal-server --transport http --host 0.0.0.0 --port 8080
+```
+
+---
+
+### Start the MCP server (default: stdio)
+
+```bash
+uv run ffcal-server
+```
+
+or directly with Python:
+
+```bash
+python -m forexfactory_mcp.server
+```
+
+---
+
+### Change transport to HTTP
+
+```bash
+uv run ffcal-server --transport http --host 0.0.0.0 --port 8080
+```
+
+or:
+
+```bash
+python -m forexfactory_mcp.server --transport http --host 0.0.0.0 --port 8080
+```
+
+This runs the server on **[http://0.0.0.0:8080/mcp](http://0.0.0.0:8080/mcp)** (streamable HTTP transport).
+
+---
+
+### SSE transport (⚠️ deprecated, use HTTP if possible)
+
+```bash
+uv run ffcal-server --transport sse --host 127.0.0.1 --port 8001
+```
+
+---
+
+### Environment variable defaults
+
+Instead of passing CLI flags every time, you can set them in `.env`:
+
+```env
+MCP_TRANSPORT=http
+MCP_HOST=0.0.0.0
+MCP_PORT=8080
+```
+
+Then simply run:
+
+```bash
+uv run ffcal-server
+```
+
+---
+
+### Summary of precedence
+
+1. CLI flags (`--transport`, `--host`, `--port`)
+2. `.env` settings (`MCP_TRANSPORT`, `MCP_HOST`, `MCP_PORT`)
+3. Hardcoded defaults (`stdio`, `127.0.0.1`, `8000`)
 
 ---
 

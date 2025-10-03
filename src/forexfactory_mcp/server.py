@@ -65,20 +65,17 @@ def setup_app(app):
 
 
 # -----------------------------------------------------------------------------
-# Entrypoint
+# Async Entrypoint
 # -----------------------------------------------------------------------------
-if __name__ == "__main__":
-
+async def main_async():
     settings = get_settings()
-
     args = parse_arguments()
 
-    # Resolve precedence: CLI > .env > defaults
+    # Precedence: CLI args > .env > defaults
     transport = args.transport or settings.MCP_TRANSPORT
     host = args.host or settings.MCP_HOST
     port = args.port or settings.MCP_PORT
 
-    # configure app with host/port here
     app = FastMCP(
         name="forexfactory-mcp",
         host=host,
@@ -88,27 +85,30 @@ if __name__ == "__main__":
 
     try:
         if transport == "stdio":
-            asyncio.run(app.run_stdio_async())
-
+            await app.run_stdio_async()
         elif transport == "http":
-            asyncio.run(app.run_streamable_http_async())
-
+            await app.run_streamable_http_async()
         elif transport == "sse":
             logger.warning(
                 "⚠️ SSE transport is deprecated. Consider using HTTP instead."
             )
-            asyncio.run(app.run_sse_async())
-
+            await app.run_sse_async()
     except KeyboardInterrupt:
         logger.info("🛑 Server interrupted and shutting down...")
     except Exception as e:
         print(f"Error starting MCP server: {e}")
-        if args.transport in ["http", "sse"]:
-            print(f"Configured host/port: {args.host}:{args.port}")
+        if transport in ["http", "sse"]:
+            print(f"Configured host/port: {host}:{port}")
             print("Common fixes:")
-            print(f"1. Ensure port {args.port} is available")
-            print(f"2. Check if another service is bound")
+            print(f"1. Ensure port {port} is available")
+            print("2. Check if another service is bound")
             print("3. Try a different port with --port <PORT>")
         sys.exit(1)
-        sys.exit(1)
-        sys.exit(1)
+
+
+def main():
+    asyncio.run(main_async())
+
+
+if __name__ == "__main__":
+    main()
