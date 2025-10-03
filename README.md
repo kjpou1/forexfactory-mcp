@@ -227,6 +227,9 @@ No special config is required, but you may set environment variables.
 | Variable             | Default                     | Description                                                              |
 | -------------------- | --------------------------- | ------------------------------------------------------------------------ |
 | `NAMESPACE`          | `ffcal`                     | MCP namespace for tools/resources                                        |
+| `MCP_TRANSPORT`      | `stdio`                     | Transport type: `stdio`, `http`, or `sse`                                |
+| `MCP_HOST`           | `127.0.0.1`                 | Host for HTTP/SSE transport (ignored for stdio)                          |
+| `MCP_PORT`           | `8000`                      | Port for HTTP/SSE transport (ignored for stdio)                          |
 | `SCRAPER_TIMEOUT_MS` | `5000`                      | Timeout for Playwright (milliseconds)                                    |
 | `LOCAL_TIMEZONE`     | system local (fallback UTC) | Local timezone override (e.g., `Europe/Luxembourg`)                      |
 | `INCLUDE_FIELDS`     | *(empty → default fields)*  | Comma-separated list of fields to include, or `*` for all fields         |
@@ -307,6 +310,22 @@ EXCLUDE_FIELDS=dateline,hasLinkedThreads
 # Namespace prefix for all tools and resources.
 # Default: ffcal
 NAMESPACE=ffcal
+
+# =====================================================
+# 🚦 MCP Server Transport
+# =====================================================
+# Transport type for MCP server
+# Options: stdio | http | sse
+# Default: stdio
+MCP_TRANSPORT=stdio
+
+# Host for HTTP/SSE transport (ignored for stdio)
+# Default: 127.0.0.1
+MCP_HOST=127.0.0.1
+
+# Port for HTTP/SSE transport (ignored for stdio)
+# Default: 8000
+MCP_PORT=8000
 
 # =====================================================
 # ⚙️ Scraper Configuration

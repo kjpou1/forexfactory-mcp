@@ -48,7 +48,12 @@ class Settings(BaseSettings):
     SCRAPER_TIMEOUT_MS: int = 5000  # Default 5s (Playwright expects ms)
 
     # === MCP namespace ===
-    NAMESPACE: str = "fxcal"
+    NAMESPACE: str = "ffcal"
+
+    # === MCP server transport ===
+    MCP_TRANSPORT: str = "stdio"  # stdio | http | sse
+    MCP_HOST: str = "127.0.0.1"  # only relevant for http/sse
+    MCP_PORT: int = 8000  # only relevant for http/sse
 
     # === Default HTTP headers for Playwright ===
     USER_AGENT: str = (
