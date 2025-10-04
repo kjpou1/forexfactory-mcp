@@ -175,6 +175,363 @@ uv run ffcal-server
 
 ---
 
+## 🐳 Docker Integration
+
+The **ForexFactory MCP Server** ships with a fully configured **Dockerfile** and **docker-compose.yml** for easy deployment and cross-environment reproducibility.
+It supports both **stdio** (default) and **HTTP/SSE** transport modes.
+
+---
+
+### 🧱 Build the image
+
+```bash
+docker compose build
+```
+
+This uses the project’s `Dockerfile` to:
+
+* Install dependencies via **uv**
+* Set up Playwright (for headless scraping)
+* Expose port **8000** for HTTP mode
+* Bundle the MCP server ready for `stdio` or `http` transport
+
+---
+
+### ▶️ Run (default: stdio)
+
+```bash
+docker compose up forexfactory_mcp
+```
+
+The server runs in **stdio** mode by default and waits for MCP client connections.
+
+Logs will stream directly to your terminal:
+
+```
+[10/04/25 09:27:16] INFO  ✅ ForexFactory MCP server initialized, waiting for client…
+```
+
+---
+
+### 🌐 Run in HTTP mode
+
+Use environment variables to override the defaults:
+
+```bash
+docker compose run --rm --service-ports \
+  -e MCP_TRANSPORT=http \
+  -e MCP_HOST=0.0.0.0 \
+  -e MCP_PORT=8000 \
+  forexfactory_mcp
+```
+
+This starts the MCP server over HTTP and makes it available at:
+
+> **[http://localhost:8000/.well-known/mcp/manifest.json](http://localhost:8000/.well-known/mcp/manifest.json)**
+
+---
+
+### 🧾 Using a `.env` file
+
+You can also define overrides persistently via a `.env` file at the project root:
+
+```env
+MCP_TRANSPORT=http
+MCP_HOST=0.0.0.0
+MCP_PORT=8000
+```
+
+Then simply run:
+
+```bash
+docker compose up forexfactory_mcp
+```
+
+Docker Compose automatically reads `.env` and injects these variables into the container.
+
+---
+
+## 🧰 Makefile Targets
+
+A `Makefile` is included to streamline common tasks and simplify Docker + MCP workflows.
+
+| Target           | Description                                                      |
+| ---------------- | ---------------------------------------------------------------- |
+| `make build`     | Build the Docker image                                           |
+| `make run-http`  | Run the MCP server in HTTP mode (`MCP_TRANSPORT=http`)           |
+| `make run-stdio` | Run the MCP server in stdio mode for debugging                   |
+| `make dev-stdio` | Start the local MCP Inspector against the stdio server           |
+| `make dev-http`  | Start the Node-based MCP Inspector via `npx` against HTTP server |
+| `make logs`      | Tail container logs live                                         |
+| `make stop`      | Stop and remove running containers                               |
+
+---
+
+### Example usage
+
+```bash
+# Build Docker image
+make build
+
+# Run in stdio mode
+make run-stdio
+
+# Run in HTTP mode (for browser-based inspector)
+make run-http
+
+# Inspect local stdio server
+make dev-stdio
+
+# Inspect Dockerized HTTP server
+make dev-http
+```
+
+All Makefile commands can be viewed with:
+
+```bash
+make help
+```
+
+---
+
+### 🧩 Inspector / Debugging
+
+Once your server is running in HTTP mode, connect with the MCP Inspector:
+
+```bash
+npx @modelcontextprotocol/inspector dev --url http://localhost:8000
+```
+
+Or for local stdio development:
+
+```bash
+uv run mcp dev src/forexfactory_mcp/main.py
+```
+
+---
+
+### 🧹 Cleanup
+
+To stop all running containers and remove temporary ones:
+
+```bash
+make stop
+```
+
+---
+
+### 📦 Docker Compose Overview
+
+```yaml
+services:
+  forexfactory_mcp:
+    build: .
+    image: forexfactory-mcp
+    container_name: forexfactory-mcp
+    stdin_open: true
+    tty: true
+    restart: unless-stopped
+    ports:
+      - "8000:8000"   # HTTP mode only
+```
+
+---
+
+### ✅ Summary
+
+| Mode                    | Recommended Command | Description                                      |
+| ----------------------- | ------------------- | ------------------------------------------------ |
+| **Local dev (stdio)**   | `make run-stdio`    | Runs server in stdio mode for direct MCP clients |
+| **HTTP / SSE (Docker)** | `make run-http`     | Exposes HTTP API at `localhost:8000`             |
+| **Inspect locally**     | `make dev-stdio`    | Launches Python MCP inspector                    |
+| **Inspect via HTTP**    | `make dev-http`     | Launches Node inspector using npx                |
+
+---
+
+## 🧩 Troubleshooting Docker
+
+Even though the Docker and Compose setup is designed to be plug-and-play, a few common issues can occur during development or rebuilds.
+Here’s a quick reference to help you diagnose and fix them fast.
+
+---
+
+### 🐍 1. `uv` or dependency install fails during build
+
+**Symptom**
+
+```
+ERROR: failed to solve: process "/bin/sh -c uv sync ..." did not complete successfully
+```
+
+**Cause**
+
+* The base image lacks the latest `uv` binary or cached dependencies are stale.
+
+**Fix**
+
+```bash
+docker compose build --no-cache forexfactory_mcp
+```
+
+This forces a clean rebuild of the image.
+
+---
+
+### ⚡ 2. Server starts but shuts down immediately
+
+**Symptom**
+
+```
+INFO: Application startup complete.
+ERROR: [Errno -2] Name or service not known
+```
+
+**Cause**
+
+* The container is running in `stdio` mode but no MCP client is attached.
+* You likely intended to run in `http` mode.
+
+**Fix**
+Use either:
+
+```bash
+make run-http
+```
+
+or manually override:
+
+```bash
+docker compose run --rm --service-ports -e MCP_TRANSPORT=http forexfactory_mcp
+```
+
+---
+
+### 🌐 3. Port already in use (`[Errno 98] Address already in use`)
+
+**Cause**
+
+* Another service (or a previously running container) is already bound to port `8000`.
+
+**Fix**
+
+1. Stop old containers:
+
+   ```bash
+   make stop
+   ```
+2. Or run on a different port:
+
+   ```bash
+   docker compose run --rm --service-ports -e MCP_TRANSPORT=http -e MCP_PORT=8080 forexfactory_mcp
+   ```
+
+   Then access it via `http://localhost:8080`.
+
+---
+
+### 🔐 4. Playwright browser fails to start
+
+**Symptom**
+
+```
+Error: Failed to launch browser process!
+```
+
+**Cause**
+
+* Playwright dependencies weren’t installed correctly in the image.
+* Headless Chromium requires additional libraries.
+
+**Fix**
+Rebuild the image and ensure Playwright installs correctly:
+
+```bash
+docker compose build --no-cache
+docker compose run forexfactory_mcp playwright install chromium
+```
+
+---
+
+### 🧱 5. `mcp dev` fails with “No server object found”
+
+**Cause**
+
+* The MCP inspector couldn’t find a global `app = FastMCP()` instance.
+
+**Fix**
+Ensure your `server.py` (or `main.py`) includes:
+
+```python
+app = FastMCP(name="forexfactory-mcp", host=host, port=port)
+```
+
+at the **top level**, not inside a function.
+
+---
+
+### 📦 6. `.env` changes not taking effect
+
+**Cause**
+
+* Docker Compose caches environment variables from a previous run.
+
+**Fix**
+Restart the service with fresh environment context:
+
+```bash
+docker compose down
+docker compose up forexfactory_mcp
+```
+
+Or verify environment injection:
+
+```bash
+docker compose config
+```
+
+(Shows the final merged environment passed to each container.)
+
+---
+
+### 🧰 7. Viewing container logs
+
+If your server runs in detached mode:
+
+```bash
+make logs
+```
+
+To follow logs live:
+
+```bash
+docker compose logs -f forexfactory_mcp
+```
+
+---
+
+### 🧼 8. Cleaning up everything
+
+If you need a full reset (containers + images + cache):
+
+```bash
+docker compose down --rmi all --volumes --remove-orphans
+```
+
+---
+
+### ✅ Quick Checklist
+
+| Symptom                | Likely Fix                        |
+| ---------------------- | --------------------------------- |
+| Server exits instantly | Switch to `MCP_TRANSPORT=http`    |
+| Port 8000 busy         | Change to `MCP_PORT=8080`         |
+| Logs doubled           | Add `logger.propagate = False`    |
+| Browser launch fails   | Run `playwright install chromium` |
+| `.env` not applied     | Restart container                 |
+
+
+---
+
 ## 🏷️ Namespace
 
 This MCP server registers under the namespace:
