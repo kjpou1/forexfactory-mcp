@@ -1,0 +1,9 @@
+{
+  "servers": {
+    "forexfactory_mcp": {
+      "type": "stdio",
+      "command": "docker",
+      "args": ["compose", "run", "--rm", "forexfactory_mcp"]
+    }
+  }
+}

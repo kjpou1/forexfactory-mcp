@@ -1,0 +1,13 @@
+services:
+  forexfactory_mcp:
+    build: .
+    image: forexfactory-mcp
+    container_name: forexfactory-mcp
+    stdin_open: true
+    tty: true
+    restart: unless-stopped
+    # environment:
+    #   - MCP_TRANSPORT=http   # 👈 change to stdio / http / ws
+    #   - MCP_HOST=0.0.0.0  # only used if transport != stdio
+    ports:
+      - "8000:8000"          # only used if transport != stdio
