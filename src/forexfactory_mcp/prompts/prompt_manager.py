@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import logging
+
 from mcp.server.fastmcp import FastMCP
 
 from forexfactory_mcp.prompts.cross_asset_radar import register as register_cross_asset
@@ -15,6 +17,8 @@ from forexfactory_mcp.prompts.weekly_outlook_next_week import (
     register as register_weekly_next,
 )
 
+logger = logging.getLogger(__name__)
+
 
 def register(app: FastMCP, namespace: str | None = None) -> None:
     """Register all prompt modules with the FastMCP app.
@@ -23,6 +27,7 @@ def register(app: FastMCP, namespace: str | None = None) -> None:
     the `forexfactory_mcp.prompts` package and invokes them to attach
     prompts to the provided app instance.
     """
+    logger.info("Registering MCP prompts...")
 
     register_daily(app, namespace)
     register_weekly(app, namespace)

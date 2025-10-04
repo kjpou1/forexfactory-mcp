@@ -11,6 +11,7 @@ logger = logging.getLogger(__name__)
 
 def register(app: FastMCP, namespace: str) -> None:
     """Register all ForexFactory MCP resources under the given namespace."""
+    logger.info("Registering MCP resources...")
 
     def make_resource(
         path: str,
