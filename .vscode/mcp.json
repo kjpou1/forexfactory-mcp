@@ -1,8 +1,9 @@
 {
   "servers": {
     "forexfactory_mcp": {
-      "type": "http",
-      "url": "http://localhost:8000/mcp"
+      "type": "stdio",
+      "command": "/Users/egodraconis/.local/bin/uv",
+      "args": ["run", "python", "-m", "forexfactory_mcp.server"]
     }
   }
 }
