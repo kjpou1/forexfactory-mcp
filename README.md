@@ -14,6 +14,45 @@ An MCP (Model Context Protocol) server that exposes **ForexFactory economic cale
 
 Designed for use in **agentic workflows**, LLMs, and trading assistants.
 
+
+---
+
+<details>
+<summary>📂 <strong>Table of contents (click to expand)</strong></summary>
+- [📅 ForexFactory MCP Server](#-forexfactory-mcp-server)
+  - [](#)
+  - [🚀 Features](#-features)
+    - [📌 Development Status](#-development-status)
+  - [🔧 Installation](#-installation)
+    - [Requirements](#requirements)
+    - [Setup](#setup)
+  - [▶️ Usage](#️-usage)
+    - [⚡ Quickstart](#-quickstart)
+    - [SSE transport (⚠️ deprecated)](#sse-transport-️-deprecated)
+    - [Environment variable defaults](#environment-variable-defaults)
+  - [🏷️ Namespace](#️-namespace)
+  - [📦 Resources](#-resources)
+  - [🛠️ Tools](#️-tools)
+  - [📝 Prompts](#-prompts)
+    - [🧩 Prompt Styles](#-prompt-styles)
+  - [💻 Client Examples](#-client-examples)
+    - [Example: Using MCP CLI](#example-using-mcp-cli)
+    - [Example: Using in Python](#example-using-in-python)
+    - [Example: LangChain Integration](#example-langchain-integration)
+    - [📘 Client Configuration Reference](#-client-configuration-reference)
+  - [⚙️ Configuration](#️-configuration)
+    - [Example `.env`](#example-env)
+  - [🐳 Docker Integration](#-docker-integration)
+    - [🐍 1. `uv` or dependency install fails](#-1-uv-or-dependency-install-fails)
+    - [⚡ 2. Server exits immediately](#-2-server-exits-immediately)
+    - [🌐 3. Port in use](#-3-port-in-use)
+    - [🔐 4. Browser fails](#-4-browser-fails)
+  - [🧪 Testing](#-testing)
+  - [📊 Roadmap](#-roadmap)
+  - [🤝 Contributing](#-contributing)
+  - [📜 License](#-license)
+
+</details>
 ---
 
 ## 🚀 Features
