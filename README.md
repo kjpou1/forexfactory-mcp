@@ -19,6 +19,7 @@ Designed for use in **agentic workflows**, LLMs, and trading assistants.
 
 <details>
 <summary>📂 <strong>Table of contents (click to expand)</strong></summary>
+  
 - [📅 ForexFactory MCP Server](#-forexfactory-mcp-server)
   - [](#)
   - [🚀 Features](#-features)
@@ -53,6 +54,7 @@ Designed for use in **agentic workflows**, LLMs, and trading assistants.
   - [📜 License](#-license)
 
 </details>
+
 ---
 
 ## 🚀 Features
