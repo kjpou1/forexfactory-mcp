@@ -2,7 +2,7 @@
   "servers": {
     "forexfactory_mcp": {
       "type": "stdio",
-      "command": "/Users/egodraconis/.local/bin/uv",
+      "command": "WHICH_UV_PATH/.local/bin/uv",
       "args": ["run", "python", "-m", "forexfactory_mcp.server"]
     }
   }

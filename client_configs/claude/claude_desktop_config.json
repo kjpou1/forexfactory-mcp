@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "forexfactory_mcp": {
+      "type": "stdio",
+      "command": "WHICH_UV_PATH/.local/bin/uv",
+      "args": ["--directory",
+      "PATH_TO_PROJECT/forexfactory-mcp/", 
+      "run",
+      "ffcal-server"]
+    }
+  }
+}

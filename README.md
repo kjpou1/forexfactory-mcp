@@ -54,6 +54,7 @@ Designed for use in **agentic workflows**, LLMs, and trading assistants.
     - [Example: Using MCP CLI](#example-using-mcp-cli)
     - [Example: Using in Python](#example-using-in-python)
     - [Example: LangChain Integration](#example-langchain-integration)
+    - [📘 Client Configuration Reference](#-client-configuration-reference)
   - [⚙️ Configuration](#️-configuration)
     - [Include/Exclude Fields](#includeexclude-fields)
       - [Processing Rules](#processing-rules)
@@ -379,7 +380,6 @@ This style system keeps prompts **modular and presentation-agnostic**.
 The underlying logic remains the same — only the *rendering layer* changes.
 This makes it easy to reuse a single prompt definition across dashboards, LLM clients, or chat workflows while maintaining a consistent visual identity.
 
-
 ---
 
 ## 💻 Client Examples
@@ -412,6 +412,22 @@ agent = initialize_agent(toolkit.tools)
 response = agent.run("What are today’s USD-related high impact events?")
 print(response)
 ```
+
+### 📘 Client Configuration Reference
+
+For detailed setup instructions on connecting **Claude Desktop**, **VS Code**, or the **MCP Inspector** to the ForexFactory MCP Server,
+see the full guide:
+
+> [📖 docs/CLIENT_CONFIG_REFERENCE.md](docs/CLIENT_CONFIG_REFERENCE.md)
+
+This includes:
+
+* ✅ Example configs for **Claude Desktop (local + Docker)**
+* 🐳 Build instructions for Docker-based MCP servers
+* 🧩 Future support notes for **VS Code MCP extension**
+* 🧪 Testing + troubleshooting checklist
+* 🔍 Inspector setup for visual debugging
+
 
 ---
 
