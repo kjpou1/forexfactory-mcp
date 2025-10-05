@@ -1,11 +1,3 @@
-Absolutely — here’s the **full and ready-to-commit version** of
-`docs/CLIENT_CONFIG_REFERENCE.md` with the new structure, your `client_configs/claude` examples referenced, placeholders for future VS Code integration, and the MCP Inspector section.
-
-You can drop this file directly into your repo at:
-`docs/CLIENT_CONFIG_REFERENCE.md`
-
----
-
 # 🧩 Client Configuration Reference
 
 This document explains how to connect different **clients** — such as **Claude Desktop**, **VS Code**, and the **MCP Inspector** — to the **ForexFactory MCP Server**.
