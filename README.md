@@ -46,6 +46,10 @@ Designed for use in **agentic workflows**, LLMs, and trading assistants.
   - [🛠️ Tools](#️-tools)
     - [Supported `time_period` values](#supported-time_period-values)
   - [📝 Prompts](#-prompts)
+    - [🧩 Prompt Styles](#-prompt-styles)
+      - [💡 Example – Default Behavior](#-example--default-behavior)
+      - [🎨 Example – Custom Style](#-example--custom-style)
+      - [🧠 Developer Note](#-developer-note)
   - [💻 Client Examples](#-client-examples)
     - [Example: Using MCP CLI](#example-using-mcp-cli)
     - [Example: Using in Python](#example-using-in-python)
@@ -317,6 +321,64 @@ If you override `NAMESPACE` in your `.env`, replace the prefix accordingly.
 | `ffcal_positioning_flow_note`    | Note on **positioning, ETF flows, and options expiries**.      | Capture sentiment and positioning context beyond the economic calendar.        |
 | `ffcal_volatility_grid`          | **Weekly event-risk heatmap** presented as a grid.             | Visualize which days/times carry the most volatility risk.                     |
 | `ffcal_trade_map_scenarios`      | Scenario map for a **chosen event** with trading implications. | Anticipate market reactions and map trade scenarios ahead of the release.      |
+
+### 🧩 Prompt Styles
+
+All prompts support a **`style`** parameter that controls *how* the model formats and presents its output.  
+This acts as a **presentation layer selector**, letting you choose between clean reports, emoji-rich summaries, or persona-driven tones — without changing the underlying logic of the prompt.
+
+```python
+style: str = "bullet points"
+````
+
+If no style is specified, prompts default to `bullet points`, ensuring simple and readable output suitable for terminals, dashboards, or note integrations.
+
+#### 💡 Example – Default Behavior
+
+**Prompt Call**
+
+```python
+ffcal_weekly_outlook(style="bullet points")
+```
+
+**Output**
+
+```
+• USD: ADP and ISM data highlight employment softening.
+• EUR: CPI steady near target; limited policy urgency.
+• JPY: BOJ comments drive mild volatility in Asia.
+• AUD: RBA hold and China PMI rebound lift risk tone.
+```
+
+#### 🎨 Example – Custom Style
+
+You can switch the visual tone dynamically using any supported style from the catalog
+(see [docs/OUTPUT_STYLE_REFERENCE.md](docs/OUTPUT_STYLE_REFERENCE.md)).
+
+**Prompt Call**
+
+```python
+ffcal_weekly_outlook(style="colored devil faces 😈")
+```
+
+**Output**
+
+```
+😈🔥 USD weakens after ISM miss — risk-on mood.
+😈🟩 EUR steady after CPI; positioning flat.
+😈🟥 JPY squeezes shorts post-Ueda speech.
+```
+
+#### 🧠 Developer Note
+
+| Parameter | Type  | Default           | Description                                                                                                                    |
+| --------- | ----- | ----------------- | ------------------------------------------------------------------------------------------------------------------------------ |
+| `style`   | `str` | `"bullet points"` | Defines the output’s formatting and tone. Accepts any style from the [Output Style Reference](docs/OUTPUT_STYLE_REFERENCE.md). |
+
+This style system keeps prompts **modular and presentation-agnostic**.
+The underlying logic remains the same — only the *rendering layer* changes.
+This makes it easy to reuse a single prompt definition across dashboards, LLM clients, or chat workflows while maintaining a consistent visual identity.
+
 
 ---
 
