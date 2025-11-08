@@ -14,6 +14,9 @@ An MCP (Model Context Protocol) server that exposes **ForexFactory economic cale
 
 Designed for use in **agentic workflows**, LLMs, and trading assistants.
 
+<a href="https://glama.ai/mcp/servers/@kjpou1/forexfactory-mcp">
+  <img width="380" height="200" src="https://glama.ai/mcp/servers/@kjpou1/forexfactory-mcp/badge" alt="ForexFactory Server MCP server" />
+</a>
 
 ---
 
@@ -187,7 +190,7 @@ NAMESPACE=ffcal
 
 | Name           | Path                                 | Description          |
 | -------------- | ------------------------------------ | -------------------- |
-| `events_today` | `ffcal://events/today`               | Today’s events       |
+| `events_today` | `ffcal://events/today`               | Today's events       |
 | `events_week`  | `ffcal://events/week`                | All events this week |
 | `events_range` | `ffcal://events/range/{start}/{end}` | Custom date range    |
 
@@ -256,7 +259,7 @@ from langchain_mcp import MCPToolkit
 
 toolkit = MCPToolkit.from_server_url("ws://localhost:8000", namespace="ffcal")
 agent = initialize_agent(toolkit.tools)
-response = agent.run("What are today’s USD-related high impact events?")
+response = agent.run("What are today's USD-related high impact events?")
 print(response)
 ```
 
@@ -409,4 +412,3 @@ pytest -v
 ## 📜 License
 
 MIT License – see [LICENSE](./LICENSE) for details.
-
