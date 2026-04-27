@@ -24,7 +24,6 @@ Designed for use in **agentic workflows**, LLMs, and trading assistants.
 <summary>📂 <strong>Table of contents (click to expand)</strong></summary>
   
 - [📅 ForexFactory MCP Server](#-forexfactory-mcp-server)
-  - [](#)
   - [🚀 Features](#-features)
     - [📌 Development Status](#-development-status)
   - [🔧 Installation](#-installation)
@@ -127,6 +126,11 @@ cd forexfactory-mcp
 
 # Install dependencies
 uv sync   # or: pip install -e .
+
+# Install Playwright browser binaries
+uv run playwright install chromium
+# or, if using pip/venv:
+playwright install chromium
 
 # Copy example environment and adjust if needed
 cp .env.example .env
